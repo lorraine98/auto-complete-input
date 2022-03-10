@@ -1,7 +1,6 @@
 import './css/global.css';
 
 import App from './components/App';
+import { $, id2Query } from './core/dom';
 
-const target = document.querySelector('#app') as HTMLElement;
-if (!target) throw new Error('Cannot find app');
-new App({ target });
+new App($(id2Query('app')));

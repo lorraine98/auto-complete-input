@@ -1,9 +1,13 @@
-import Header from './Header';
+import Component from '../core/Component';
 
-interface Props {
-    target: HTMLElement;
-}
+export default class App extends Component {
+    constructor($target: HTMLElement) {
+        super($target);
+    }
 
-export default function App({ target }: Props) {
-    // new Header({ target });
+    getInnerHTML() {
+        return `
+            <h1>🎥Auto Complete</h1>
+      `;
+    }
 }
