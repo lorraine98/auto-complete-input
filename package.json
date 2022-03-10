@@ -1,0 +1,30 @@
+{
+    "name": "auto-complete-input",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/lorraine98/auto-complete-input.git",
+    "author": "Lorraine <limgytjd98@gmail.com>",
+    "license": "MIT",
+    "scripts": {
+        "start": "webpack serve --open",
+        "build": "webpack"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "@babel/cli": "^7.17.6",
+        "@babel/core": "^7.17.5",
+        "@babel/preset-env": "^7.16.11",
+        "@babel/preset-typescript": "^7.16.7",
+        "@types/node": "^17.0.21",
+        "@webpack-cli/serve": "^1.6.1",
+        "babel-loader": "^8.2.3",
+        "clean-webpack-plugin": "^4.0.0",
+        "css-loader": "^6.7.1",
+        "html-webpack-plugin": "^5.5.0",
+        "style-loader": "^3.3.1",
+        "typescript": "^4.6.2",
+        "webpack": "^5.70.0",
+        "webpack-cli": "^4.9.2",
+        "webpack-dev-server": "^4.7.4"
+    }
+}

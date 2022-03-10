@@ -6,6 +6,5 @@ export default function Header({ target }) {
 
     const title = document.createElement('h1');
     title.innerHTML = 'Auto Complete';
-    title.style.textAlign = 'center';
     header.appendChild(title);
 }
