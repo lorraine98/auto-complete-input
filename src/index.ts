@@ -1,6 +1,6 @@
-import './css/global.css';
+import './css/style.css';
 
 import App from './components/App';
-import { $, id2Query } from './core/dom';
+import { $, idToQuery } from './core/dom';
 
-new App($(id2Query('app')));
+new App($(idToQuery('app')));

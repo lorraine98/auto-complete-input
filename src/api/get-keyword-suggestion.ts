@@ -1,6 +1,6 @@
 const API_END_POINT = process.env.API_END_POINT;
 
-export const request = async (URL: string) => {
+export const getKeywordsuggestion = async (URL: string) => {
     try {
         const res = await fetch(`${API_END_POINT}${URL}`);
 

@@ -9,10 +9,10 @@ export function $$(query: string, target?: HTMLElement): HTMLElement[] {
     );
 }
 
-export function id2Query(id: string) {
+export function idToQuery(id: string) {
     return `#${id}`;
 }
 
-export function class2Query(className: string) {
+export function classToQuery(className: string) {
     return `.${className}`;
 }
