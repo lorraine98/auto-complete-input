@@ -48,7 +48,7 @@ export default class SearchBox extends Component {
     return `
           <form class="relative d-flex items-center">
             <img src="${Search}" class="search-icon" />
-            <input placeholder="Search movie" class="search-input" />
+            <input placeholder="'가' 또는 '나'를 입력해보세요." class="search-input" />
             <img src="${Clear}" class="clear-icon" />
           </form>
           <div id="${ID.SuggestionListComp}" class="suggestion-list-wrapper"></div>
