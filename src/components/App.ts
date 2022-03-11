@@ -1,7 +1,8 @@
-import { ID } from "../common/constant";
 import Component from "../common/Component";
-import { $, idToQuery } from "../common/dom";
 import SearchBox from "./SearchBox";
+
+import { ID } from "../common/constant";
+import { $, idToQuery } from "../common/dom";
 
 export default class App extends Component {
   private searchBoxComp?: SearchBox;

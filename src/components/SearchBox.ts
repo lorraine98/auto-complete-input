@@ -1,10 +1,16 @@
 import Component from "../common/Component";
 import Search from "../icons/search.svg";
 import Clear from "../icons/clear.svg";
+import SuggestionList from "./SuggestionList";
+
 import { debounce } from "../common/debounce";
 import { getSuggestionList } from "../api/get-suggestion-list";
+import { $, idToQuery } from "../common/dom";
+import { ID } from "../common/constant";
 
 export default class SearchBox extends Component {
+  private suggestionListComp?: SuggestionList;
+
   constructor($target: HTMLElement) {
     super($target);
   }
@@ -19,20 +25,31 @@ export default class SearchBox extends Component {
       debounce(async (e: InputEvent) => {
         const { value } = e.target as HTMLInputElement;
         if (value.trim()) {
-          const data = await getSuggestionList(`/autocomplete?value=${value}`);
-          console.log(data);
+          const suggestionItems = await getSuggestionList(
+            `/autocomplete?value=${value}`
+          );
+          this.suggestionListComp?.setState({
+            suggestionItems,
+          });
         }
       })
     );
   }
 
+  componentDidMount() {
+    this.suggestionListComp = new SuggestionList(
+      $(idToQuery(ID.SuggestionListComp), this.$target)
+    );
+  }
+
   getInnerHTML() {
     return `
-          <label class="relative d-flex items-center">
+          <form class="relative d-flex items-center">
             <img src="${Search}" class="search-icon" />
             <input placeholder="Search movie" class="search-input" />
             <img src="${Clear}" class="clear-icon" />
-          </label>
+          </form>
+          <div id="${ID.SuggestionListComp}" class="suggestion-list-wrapper"></div>
       `;
   }
 }
