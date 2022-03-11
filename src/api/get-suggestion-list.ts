@@ -1,4 +1,5 @@
-const API_END_POINT = process.env.API_END_POINT;
+const API_END_POINT =
+  "https://5qfov74y3c.execute-api.ap-northeast-2.amazonaws.com/web-front";
 
 export const getSuggestionList = async (URL: string) => {
   try {
@@ -8,7 +9,7 @@ export const getSuggestionList = async (URL: string) => {
       throw new Error("Fail to call api");
     }
 
-    return await res.json();
+    return res.json();
   } catch (error) {
     console.error(error);
   }
