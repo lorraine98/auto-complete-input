@@ -31,6 +31,8 @@ export default class SearchBox extends Component {
           this.suggestionListComp?.setState({
             suggestionItems,
           });
+        } else {
+          this.suggestionListComp?.setState({ suggestionItems: null });
         }
       })
     );

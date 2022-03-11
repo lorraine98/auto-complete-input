@@ -5,7 +5,7 @@
 :root {
   --dark: #141517;
   --semi-dark: #303133;
-  --gray: #84868d;
+  --gray: #444751;
   --white: #d4d7db;
 }
 
@@ -27,6 +27,13 @@ input {
 }
 
 ol,
-ul {
+ul,
+li {
   list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.hide {
+  display: none;
 }

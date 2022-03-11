@@ -10,7 +10,7 @@ const defaultState = {
 };
 
 interface StateProps {
-  suggestionItems?: SuggestionItem[];
+  suggestionItems: SuggestionItem[] | null;
   pointer?: number;
 }
 
@@ -29,17 +29,21 @@ export default class SuggestionList extends Component<
 
   getInnerHTML() {
     return `
-            <ul>
-                ${this.state?.suggestionItems
-                  ?.map(
-                    (suggesitonItem) =>
-                      `
-                        <li class="mt-4">
-                            ${suggesitonItem.text}
-                        </li>
+            <ul class="${this.state?.suggestionItems ? "" : "hide"}">
+            ${
+              this.state?.suggestionItems?.length
+                ? this.state.suggestionItems
+                    .map(
+                      (suggesitonItem) =>
+                        `
+                    <li class="suggestion-list-li">
+                        ${suggesitonItem.text}
+                    </li>
                     `
-                  )
-                  .join("")}
+                    )
+                    .join("")
+                : `<li class="suggestion-list-li">검색 결과가 없습니다.</li>`
+            } 
             </ul>
         `;
   }
