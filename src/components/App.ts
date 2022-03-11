@@ -19,7 +19,7 @@ export default class App extends Component {
 
   getInnerHTML() {
     return `
-            <section id="${ID.SearchBoxComp}"  class="d-flex justify-center mt-7"></section>
+            <section id="${ID.SearchBoxComp}"  class="d-flex justify-center mt-7 relative"></section>
       `;
   }
 }

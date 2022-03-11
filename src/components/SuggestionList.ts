@@ -34,7 +34,7 @@ export default class SuggestionList extends Component<
                   ?.map(
                     (suggesitonItem) =>
                       `
-                        <li>
+                        <li class="mt-4">
                             ${suggesitonItem.text}
                         </li>
                     `

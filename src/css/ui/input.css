@@ -14,7 +14,6 @@
 .search-input:focus,
 .search-input:active {
   background-color: var(--semi-dark);
-  outline: none;
 }
 
 .search-icon {

@@ -1,0 +1,9 @@
+.suggestion-list-wrapper {
+  background: var(--semi-dark);
+  position: absolute;
+  top: 3.5rem;
+  z-index: 100;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0.25rem;
+}
