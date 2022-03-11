@@ -1,6 +1,6 @@
 import { Comp } from "../common/constant";
-import Component from "../core/Component";
-import { $, idToQuery } from "../core/dom";
+import Component from "../common/Component";
+import { $, idToQuery } from "../common/dom";
 import SearchBox from "./SearchBox";
 
 export default class App extends Component {

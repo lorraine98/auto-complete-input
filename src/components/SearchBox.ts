@@ -1,4 +1,4 @@
-import Component from "../core/Component";
+import Component from "../common/Component";
 import Search from "../icons/search.svg";
 import Clear from "../icons/clear.svg";
 
