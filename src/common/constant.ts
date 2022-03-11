@@ -1,3 +1,3 @@
-export const Comp = Object.freeze({
+export const ID = Object.freeze({
   SearchBoxComp: "search-box-component",
 });

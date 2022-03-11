@@ -1,4 +1,4 @@
-import { Comp } from "../common/constant";
+import { ID } from "../common/constant";
 import Component from "../common/Component";
 import { $, idToQuery } from "../common/dom";
 import SearchBox from "./SearchBox";
@@ -12,13 +12,13 @@ export default class App extends Component {
 
   componentDidMount() {
     this.searchBoxComp = new SearchBox(
-      $(idToQuery(Comp.SearchBoxComp), this.$target)
+      $(idToQuery(ID.SearchBoxComp), this.$target)
     );
   }
 
   getInnerHTML() {
     return `
-            <section id="${Comp.SearchBoxComp}"  class="d-flex justify-center mt-7"></section>
+            <section id="${ID.SearchBoxComp}"  class="d-flex justify-center mt-7"></section>
       `;
   }
 }
