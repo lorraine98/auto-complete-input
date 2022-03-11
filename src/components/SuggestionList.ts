@@ -3,16 +3,17 @@ import {
   SuggestionItem,
 } from "../api/get-suggestion-list";
 import Component from "../common/Component";
-
-const defaultState = {
-  suggestionItems: [],
-  pointer: 0,
-};
+import { $, classToQuery } from "../common/dom";
 
 interface StateProps {
   suggestionItems: SuggestionItem[] | null;
-  pointer?: number;
+  cursor?: number;
 }
+
+const defaultState: StateProps = {
+  suggestionItems: [],
+  cursor: 0,
+};
 
 export default class SuggestionList extends Component<
   SuggestionListProps,
@@ -22,14 +23,31 @@ export default class SuggestionList extends Component<
     super($target);
   }
 
+  componentInit() {
+    this.bindEvent();
+  }
+
   setState(nextState: StateProps) {
     this.state = { ...this.state, ...nextState };
     this.render();
   }
 
+  bindEvent() {
+    window.addEventListener("keydown", (e) => {
+      if ($(classToQuery("show"))) {
+        const { key } = e;
+
+        if (key === "ArrowUp") {
+        } else if (key === "ArrowDown") {
+        } else if (key === "Enter") {
+        }
+      }
+    });
+  }
+
   getInnerHTML() {
     return `
-            <ul class="${this.state?.suggestionItems ? "" : "hide"}">
+            <ul class="${this.state?.suggestionItems ? "show" : "hide"}">
             ${
               this.state?.suggestionItems?.length
                 ? this.state.suggestionItems

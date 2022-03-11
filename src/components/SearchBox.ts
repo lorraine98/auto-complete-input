@@ -5,7 +5,7 @@ import SuggestionList from "./SuggestionList";
 
 import { debounce } from "../common/debounce";
 import { getSuggestionList } from "../api/get-suggestion-list";
-import { $, idToQuery } from "../common/dom";
+import { $, classToQuery, idToQuery } from "../common/dom";
 import { ID } from "../common/constant";
 
 export default class SearchBox extends Component {
@@ -36,6 +36,15 @@ export default class SearchBox extends Component {
         }
       })
     );
+
+    this.$target.addEventListener("click", (e) => {
+      const { className } = e.target as HTMLInputElement;
+      if (className === "clear-icon") {
+        const $input = $(classToQuery("search-input")) as HTMLInputElement;
+        $input.value = "";
+        this.suggestionListComp?.setState({ suggestionItems: null });
+      }
+    });
   }
 
   componentDidMount() {
