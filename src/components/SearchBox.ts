@@ -9,10 +9,10 @@ export default class SearchBox extends Component {
 
   getInnerHTML() {
     return `
-          <label id="search-label">
-            <img src="${Search}" />
-            <input placeholder="Search movie" class="input" />
-            <img src="${Clear}" />
+          <label class="relative d-flex items-center">
+            <img src="${Search}" class="search-icon" />
+            <input placeholder="Search movie" class="search-input" />
+            <img src="${Clear}" class="clear-icon" />
           </label>
       `;
   }

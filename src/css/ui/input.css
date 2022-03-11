@@ -1,18 +1,28 @@
-.input {
+.search-input {
   background-color: var(--semi-dark);
   color: var(--white);
-  position: relative;
-  width: 18rem;
-  height: 2.5rem;
+  width: 24rem;
+  height: 3rem;
   border: none;
   font-weight: 400;
+  font-size: 1rem;
   padding-left: 2.8rem;
   border-radius: 0.25rem;
 }
 
-.input:hover,
-.input:focus,
-.input:active {
+.search-input:hover,
+.search-input:focus,
+.search-input:active {
   background-color: var(--semi-dark);
   outline: none;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+}
+
+.clear-icon {
+  position: absolute;
+  right: 0.75rem;
 }
