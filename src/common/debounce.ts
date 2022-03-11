@@ -1,13 +1,8 @@
-export function debounce<Params extends any[]>(
-  fn: (...args: Params) => any,
-  timeout: number
-): (...args: Params) => void {
-  let timer: NodeJS.Timeout;
+export const debounce = (fn: Function, ms = 300) => {
+  let timeout: ReturnType<typeof setTimeout>;
 
-  return (...args: Params) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      fn(...args);
-    }, timeout);
+  return function (this: any, ...args: any[]) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn.apply(this, args), ms);
   };
-}
+};

@@ -1,10 +1,27 @@
 import Component from "../common/Component";
 import Search from "../icons/search.svg";
 import Clear from "../icons/clear.svg";
+import { debounce } from "../common/debounce";
 
 export default class SearchBox extends Component {
   constructor($target: HTMLElement) {
     super($target);
+  }
+
+  componentInit() {
+    this.bindEvent();
+  }
+
+  bindEvent() {
+    this.$target.addEventListener(
+      "keydown",
+      debounce((e: InputEvent) => {
+        const { value } = e.target as HTMLInputElement;
+        if (value.trim()) {
+          console.log(value);
+        }
+      })
+    );
   }
 
   getInnerHTML() {
