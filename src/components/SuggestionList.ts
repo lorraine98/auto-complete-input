@@ -6,12 +6,12 @@ import Component from "../common/Component";
 import { $, classToQuery } from "../common/dom";
 
 interface StateProps {
-  suggestionItems: SuggestionItem[] | null;
+  suggestionItems?: SuggestionItem[] | null;
   cursor?: number;
 }
 
 const defaultState: StateProps = {
-  suggestionItems: [],
+  suggestionItems: null,
   cursor: 0,
 };
 
@@ -19,12 +19,8 @@ export default class SuggestionList extends Component<
   SuggestionListProps,
   StateProps
 > {
-  constructor($target: HTMLElement) {
-    super($target);
-  }
-
-  componentInit() {
-    this.bindEvent();
+  constructor($target: HTMLElement, props?: SuggestionListProps) {
+    super($target, props, defaultState);
   }
 
   setState(nextState: StateProps) {
@@ -32,16 +28,23 @@ export default class SuggestionList extends Component<
     this.render();
   }
 
-  bindEvent() {
-    window.addEventListener("keydown", (e) => {
-      if ($(classToQuery("show"))) {
-        const { key } = e;
+  moveCursorUp() {
+    const prevCursor = this.state?.cursor ?? 0;
+    const suggestionItemLen = this.state?.suggestionItems?.length ?? 0;
+    const nextCursor = (suggestionItemLen + prevCursor - 1) % suggestionItemLen;
+    this.setState({
+      ...this.state,
+      cursor: nextCursor,
+    });
+  }
 
-        if (key === "ArrowUp") {
-        } else if (key === "ArrowDown") {
-        } else if (key === "Enter") {
-        }
-      }
+  moveCursorDown() {
+    const prevCursor = this.state?.cursor ?? 0;
+    const suggestionItemLen = this.state?.suggestionItems?.length ?? 0;
+    const nextCursor = (prevCursor + 1) % suggestionItemLen;
+    this.setState({
+      ...this.state,
+      cursor: nextCursor,
     });
   }
 
@@ -52,9 +55,11 @@ export default class SuggestionList extends Component<
               this.state?.suggestionItems?.length
                 ? this.state.suggestionItems
                     .map(
-                      (suggesitonItem) =>
+                      (suggesitonItem, i) =>
                         `
-                    <li class="suggestion-list-li">
+                    <li class="suggestion-list-li ${
+                      this.state?.cursor === i ? "suggestion-list-selected" : ""
+                    }">
                         ${suggesitonItem.text}
                     </li>
                     `

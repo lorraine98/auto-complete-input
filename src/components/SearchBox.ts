@@ -20,6 +20,17 @@ export default class SearchBox extends Component {
   }
 
   bindEvent() {
+    this.$target.addEventListener("keydown", (e) => {
+      if (e.isComposing) {
+        return;
+      }
+      if (e.key === "ArrowUp") {
+        this.suggestionListComp?.moveCursorUp();
+      } else if (e.key === "ArrowDown") {
+        this.suggestionListComp?.moveCursorDown();
+      }
+    });
+
     this.$target.addEventListener(
       "keydown",
       debounce(async (e: InputEvent) => {

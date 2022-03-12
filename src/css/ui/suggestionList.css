@@ -14,6 +14,7 @@
   border-radius: 0.25rem;
 }
 
-.suggestion-list-li:hover {
+.suggestion-list-li:hover,
+.suggestion-list-selected {
   background-color: var(--gray);
 }
