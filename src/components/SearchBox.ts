@@ -4,9 +4,10 @@ import Clear from "../icons/clear.svg";
 import SuggestionList from "./SuggestionList";
 
 import { debounce } from "../common/debounce";
-import { getSuggestionList } from "../api/get-suggestion-list";
+import { fetchSuggestionList } from "../api/fetch-suggestion-list";
 import { $, classToQuery, idToQuery } from "../common/dom";
 import { ID } from "../common/constant";
+import { getItem, setItem } from "../common/sessionStorage";
 
 export default class SearchBox extends Component {
   private suggestionListComp?: SuggestionList;
@@ -17,6 +18,16 @@ export default class SearchBox extends Component {
 
   componentInit() {
     this.bindEvent();
+  }
+
+  async getSuggestionList(value: string) {
+    if (getItem(value)) {
+      return getItem(value);
+    } else {
+      const res = await fetchSuggestionList(`/autocomplete?value=${value}`);
+      res.length && setItem(value, res);
+      return res;
+    }
   }
 
   bindEvent() {
@@ -44,9 +55,7 @@ export default class SearchBox extends Component {
       debounce(async (e: InputEvent) => {
         const { value } = e.target as HTMLInputElement;
         if (value.trim()) {
-          const suggestionItems = await getSuggestionList(
-            `/autocomplete?value=${value}`
-          );
+          const suggestionItems = await this.getSuggestionList(value);
           this.suggestionListComp?.setState({
             suggestionItems,
           });

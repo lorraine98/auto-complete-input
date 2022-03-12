@@ -1,7 +1,7 @@
 const API_END_POINT =
   "https://5qfov74y3c.execute-api.ap-northeast-2.amazonaws.com/web-front";
 
-export const getSuggestionList = async (
+export const fetchSuggestionList = async (
   URL: string
 ): Promise<SuggestionItem[]> => {
   try {

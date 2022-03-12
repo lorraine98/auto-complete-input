@@ -1,9 +1,8 @@
 import {
   SuggestionListProps,
   SuggestionItem,
-} from "../api/get-suggestion-list";
+} from "../api/fetch-suggestion-list";
 import Component from "../common/Component";
-import { $, classToQuery } from "../common/dom";
 
 interface StateProps {
   suggestionItems?: SuggestionItem[] | null;
