@@ -48,9 +48,17 @@ export default class SuggestionList extends Component<
     });
   }
 
+  hide() {
+    this.$target.classList.add("hide");
+  }
+
+  show() {
+    this.$target.classList.remove("hide");
+  }
+
   getInnerHTML() {
     return `
-            <ul class="${this.state?.suggestionItems ? "show" : "hide"}">
+            <ul class="${this.state?.suggestionItems ? "" : "hide"}">
             ${
               this.state?.suggestionItems?.length
                 ? this.state.suggestionItems

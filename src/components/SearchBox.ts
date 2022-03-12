@@ -20,6 +20,14 @@ export default class SearchBox extends Component {
   }
 
   bindEvent() {
+    this.$target.addEventListener("focusout", (e) => {
+      this.suggestionListComp?.hide();
+    });
+
+    this.$target.addEventListener("focusin", (e) => {
+      this.suggestionListComp?.show();
+    });
+
     this.$target.addEventListener("keydown", (e) => {
       if (e.isComposing) {
         return;
@@ -70,8 +78,8 @@ export default class SearchBox extends Component {
             <img src="${Search}" class="search-icon" />
             <input placeholder="'가' 또는 '나'를 입력해보세요." class="search-input" />
             <img src="${Clear}" class="clear-icon" />
+            <div id="${ID.SuggestionListComp}" class="suggestion-list-wrapper"></div>
           </form>
-          <div id="${ID.SuggestionListComp}" class="suggestion-list-wrapper"></div>
       `;
   }
 }
