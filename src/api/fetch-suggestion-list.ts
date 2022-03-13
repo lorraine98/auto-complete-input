@@ -2,11 +2,10 @@ const API_END_POINT =
   "https://5qfov74y3c.execute-api.ap-northeast-2.amazonaws.com/web-front";
 
 export const fetchSuggestionList = async (
-  URL: string
+  word: string
 ): Promise<SuggestionItem[]> => {
   try {
-    const res = await fetch(`${API_END_POINT}${URL}`);
-
+    const res = await fetch(`${API_END_POINT}/autocomplete?value=${word}`);
     if (!res.ok) {
       throw new Error("Fail to call api");
     }

@@ -7,7 +7,7 @@ import { debounce } from "../common/debounce";
 import { fetchSuggestionList } from "../api/fetch-suggestion-list";
 import { $, classToQuery, idToQuery } from "../common/dom";
 import { ID } from "../common/constant";
-import { getItem, setItem } from "../common/sessionStorage";
+import { getItem, hasItem, setItem } from "../common/sessionStorage";
 
 interface Props {
   onSubmitInput: (content: string) => void;
@@ -21,35 +21,31 @@ export default class SearchBox extends Component<Props> {
   }
 
   componentInit() {
-    this.bindEvent();
+    this.bindEvents();
   }
 
-  async getSuggestionList(value: string) {
-    if (getItem(value)) {
-      return getItem(value);
+  async getSuggestionList(word: string) {
+    if (hasItem(word)) {
+      return getItem(word);
     } else {
-      const res = await fetchSuggestionList(`/autocomplete?value=${value}`);
-      res.length && setItem(value, res);
-      return res;
+      const suggestionList = await fetchSuggestionList(word);
+      suggestionList.length && setItem(word, suggestionList);
+
+      return suggestionList;
     }
   }
 
-  bindEvent() {
+  bindEvents() {
     this.$target.addEventListener("keydown", (e) => {
-      this.suggestionListComp?.show();
       if (e.isComposing) {
-        return;
+        return; //조합문자가 아님에도 조합문자라고 인식하는 버그가 있어 처리함.
       }
+      this.suggestionListComp?.show();
       const { key } = e;
       if (key === "ArrowUp") {
         this.suggestionListComp?.moveCursorUp();
       } else if (key === "ArrowDown") {
         this.suggestionListComp?.moveCursorDown();
-      } else if (key === "Enter") {
-        e.preventDefault();
-        const selectedItem = this.suggestionListComp?.getSelectedItem() ?? "";
-        this.props?.onSubmitInput(selectedItem);
-        this.suggestionListComp?.hide();
       }
     });
 
@@ -58,15 +54,36 @@ export default class SearchBox extends Component<Props> {
       debounce(async (e: InputEvent) => {
         const { value } = e.target as HTMLInputElement;
         if (value.trim()) {
-          const suggestionItems = await this.getSuggestionList(value);
+          const suggestionList = await this.getSuggestionList(value);
           this.suggestionListComp?.setState({
-            suggestionItems,
+            suggestionList,
           });
         } else {
-          this.suggestionListComp?.setState({ suggestionItems: null });
+          this.suggestionListComp?.hide();
         }
       })
     );
+
+    const clearInputValue = () => {
+      const $input = $(
+        classToQuery("search-input"),
+        this.$target
+      ) as HTMLInputElement;
+      $input.value = "";
+      $input.focus();
+      this.suggestionListComp?.hide();
+    };
+
+    this.$target.addEventListener("click", (e) => {
+      const { classList, innerText } = e.target as HTMLElement;
+      if (classList.contains("clear-icon")) {
+        clearInputValue();
+      }
+      if (classList.contains("suggestion-list-li")) {
+        this.props?.onSubmitInput(innerText);
+        this.suggestionListComp?.hide();
+      }
+    });
 
     document.addEventListener("click", (e) => {
       const $eventTarget = e.target as HTMLElement;
@@ -75,30 +92,16 @@ export default class SearchBox extends Component<Props> {
       }
     });
 
-    this.$target.addEventListener("click", (e) => {
-      const { className, innerText } = e.target as HTMLInputElement;
-      if (className === "clear-icon") {
-        this.clearInputValue();
-      }
-      if (className === "suggestion-list-li ") {
-        this.props?.onSubmitInput(innerText);
-        this.suggestionListComp?.hide();
-      }
-    });
-
     this.$target.addEventListener("focusin", () => {
       this.suggestionListComp?.show();
     });
-  }
 
-  clearInputValue() {
-    const $input = $(
-      classToQuery("search-input"),
-      this.$target
-    ) as HTMLInputElement;
-    $input.value = "";
-    this.suggestionListComp?.setState({ suggestionItems: null });
-    $input.focus();
+    this.$target.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const selectedItem = this.suggestionListComp?.getSelectedItem() ?? "";
+      this.props?.onSubmitInput(selectedItem);
+      this.suggestionListComp?.hide();
+    });
   }
 
   componentDidMount() {

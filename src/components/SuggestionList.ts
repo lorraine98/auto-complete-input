@@ -5,12 +5,12 @@ import {
 import Component from "../common/Component";
 
 interface StateProps {
-  suggestionItems?: SuggestionItem[] | null;
+  suggestionList?: SuggestionItem[];
   cursor?: number;
 }
 
 const defaultState: StateProps = {
-  suggestionItems: null,
+  suggestionList: [],
   cursor: 0,
 };
 
@@ -29,12 +29,12 @@ export default class SuggestionList extends Component<
 
   moveCursorUp() {
     const prevCursor = this.state?.cursor ?? 0;
-    const suggesitonItems = this.state?.suggestionItems ?? [];
-    if (!suggesitonItems.length) {
+    const suggestionList = this.state?.suggestionList ?? [];
+    if (!suggestionList.length) {
       return;
     }
     const nextCursor =
-      (suggesitonItems.length + prevCursor - 1) % suggesitonItems.length;
+      (suggestionList.length + prevCursor - 1) % suggestionList.length;
     this.setState({
       ...this.state,
       cursor: nextCursor,
@@ -43,11 +43,11 @@ export default class SuggestionList extends Component<
 
   moveCursorDown() {
     const prevCursor = this.state?.cursor ?? 0;
-    const suggesitonItems = this.state?.suggestionItems ?? [];
-    if (!suggesitonItems.length) {
+    const suggestionList = this.state?.suggestionList ?? [];
+    if (!suggestionList.length) {
       return;
     }
-    const nextCursor = (prevCursor + 1) % suggesitonItems.length;
+    const nextCursor = (prevCursor + 1) % suggestionList.length;
     this.setState({
       ...this.state,
       cursor: nextCursor,
@@ -55,17 +55,17 @@ export default class SuggestionList extends Component<
   }
 
   getSelectedItem(): string {
-    const suggesitonItems = this.state?.suggestionItems ?? [];
+    const suggestionList = this.state?.suggestionList ?? [];
     const cursor = this.state?.cursor ?? 0;
-
-    if (cursor >= suggesitonItems.length) {
+    if (cursor >= suggestionList.length) {
       return "";
     }
 
-    return suggesitonItems[cursor].text;
+    return suggestionList[cursor].text;
   }
 
   hide() {
+    console.log(this.$target);
     this.$target.classList.add("hide");
   }
 
@@ -74,24 +74,23 @@ export default class SuggestionList extends Component<
   }
 
   getInnerHTML() {
+    const suggestionList = this.state?.suggestionList ?? [];
+    const cursor = this.state?.cursor;
+
     return `
-            <ul class="${this.state?.suggestionItems ? "" : "hide"}">
-            ${
-              this.state?.suggestionItems?.length
-                ? this.state.suggestionItems
-                    .map(
-                      (suggesitonItem, i) =>
-                        `
+            <ul>
+            ${suggestionList
+              .map(
+                (suggestionItem, i) =>
+                  `
                     <li class="suggestion-list-li ${
-                      this.state?.cursor === i ? "suggestion-list-selected" : ""
+                      cursor === i ? "suggestion-list-selected" : ""
                     }">
-                        ${suggesitonItem.text}
+                        ${suggestionItem.text}
                     </li>
                     `
-                    )
-                    .join("")
-                : `<li class="suggestion-list-li">검색 결과가 없습니다.</li>`
-            } 
+              )
+              .join("")} 
             </ul>
         `;
   }
