@@ -36,6 +36,7 @@ export default class SearchBox extends Component<Props> {
 
   bindEvent() {
     this.$target.addEventListener("keydown", (e) => {
+      this.suggestionListComp?.show();
       if (e.isComposing) {
         return;
       }
@@ -67,6 +68,13 @@ export default class SearchBox extends Component<Props> {
       })
     );
 
+    document.addEventListener("click", (e) => {
+      const $eventTarget = e.target as HTMLElement;
+      if (!$eventTarget.closest(idToQuery(this.$target.id))) {
+        this.suggestionListComp?.hide();
+      }
+    });
+
     this.$target.addEventListener("click", (e) => {
       const { className, innerText } = e.target as HTMLInputElement;
       if (className === "clear-icon") {
@@ -78,21 +86,16 @@ export default class SearchBox extends Component<Props> {
       }
     });
 
-    this.$target.addEventListener("focusout", (e) => {
-      const { className } = e.target as HTMLInputElement;
-      if (className === "search-input") {
-        return;
-      }
-      this.suggestionListComp?.hide();
-    });
-
     this.$target.addEventListener("focusin", () => {
       this.suggestionListComp?.show();
     });
   }
 
   clearInputValue() {
-    const $input = $(classToQuery("search-input")) as HTMLInputElement;
+    const $input = $(
+      classToQuery("search-input"),
+      this.$target
+    ) as HTMLInputElement;
     $input.value = "";
     this.suggestionListComp?.setState({ suggestionItems: null });
     $input.focus();
