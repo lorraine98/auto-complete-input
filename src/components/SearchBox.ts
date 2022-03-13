@@ -35,14 +35,6 @@ export default class SearchBox extends Component<Props> {
   }
 
   bindEvent() {
-    this.$target.addEventListener("focusout", () => {
-      this.suggestionListComp?.hide();
-    });
-
-    this.$target.addEventListener("focusin", () => {
-      this.suggestionListComp?.show();
-    });
-
     this.$target.addEventListener("keydown", (e) => {
       if (e.isComposing) {
         return;
@@ -56,6 +48,7 @@ export default class SearchBox extends Component<Props> {
         e.preventDefault();
         const selectedItem = this.suggestionListComp?.getSelectedItem() ?? "";
         this.props?.onSubmitInput(selectedItem);
+        this.suggestionListComp?.hide();
       }
     });
 
@@ -75,10 +68,26 @@ export default class SearchBox extends Component<Props> {
     );
 
     this.$target.addEventListener("click", (e) => {
-      const { className } = e.target as HTMLInputElement;
+      const { className, innerText } = e.target as HTMLInputElement;
       if (className === "clear-icon") {
         this.clearInputValue();
       }
+      if (className === "suggestion-list-li ") {
+        this.props?.onSubmitInput(innerText);
+        this.suggestionListComp?.hide();
+      }
+    });
+
+    this.$target.addEventListener("focusout", (e) => {
+      const { className } = e.target as HTMLInputElement;
+      if (className === "search-input") {
+        return;
+      }
+      this.suggestionListComp?.hide();
+    });
+
+    this.$target.addEventListener("focusin", () => {
+      this.suggestionListComp?.show();
     });
   }
 
