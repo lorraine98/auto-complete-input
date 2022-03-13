@@ -9,11 +9,15 @@ import { $, classToQuery, idToQuery } from "../common/dom";
 import { ID } from "../common/constant";
 import { getItem, setItem } from "../common/sessionStorage";
 
-export default class SearchBox extends Component {
+interface Props {
+  onSubmitInput: (content: string) => void;
+}
+
+export default class SearchBox extends Component<Props> {
   private suggestionListComp?: SuggestionList;
 
-  constructor($target: HTMLElement) {
-    super($target);
+  constructor($target: HTMLElement, props: Props) {
+    super($target, props);
   }
 
   componentInit() {
@@ -48,6 +52,10 @@ export default class SearchBox extends Component {
         this.suggestionListComp?.moveCursorUp();
       } else if (key === "ArrowDown") {
         this.suggestionListComp?.moveCursorDown();
+      } else if (key === "Enter") {
+        e.preventDefault();
+        const selectedItem = this.suggestionListComp?.getSelectedItem() ?? "";
+        this.props?.onSubmitInput(selectedItem);
       }
     });
 
@@ -69,12 +77,16 @@ export default class SearchBox extends Component {
     this.$target.addEventListener("click", (e) => {
       const { className } = e.target as HTMLInputElement;
       if (className === "clear-icon") {
-        const $input = $(classToQuery("search-input")) as HTMLInputElement;
-        $input.value = "";
-        this.suggestionListComp?.setState({ suggestionItems: null });
-        $input.focus();
+        this.clearInputValue();
       }
     });
+  }
+
+  clearInputValue() {
+    const $input = $(classToQuery("search-input")) as HTMLInputElement;
+    $input.value = "";
+    this.suggestionListComp?.setState({ suggestionItems: null });
+    $input.focus();
   }
 
   componentDidMount() {

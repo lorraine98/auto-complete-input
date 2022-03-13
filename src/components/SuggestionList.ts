@@ -29,8 +29,12 @@ export default class SuggestionList extends Component<
 
   moveCursorUp() {
     const prevCursor = this.state?.cursor ?? 0;
-    const suggestionItemLen = this.state?.suggestionItems?.length ?? 0;
-    const nextCursor = (suggestionItemLen + prevCursor - 1) % suggestionItemLen;
+    const suggesitonItems = this.state?.suggestionItems ?? [];
+    if (!suggesitonItems.length) {
+      return;
+    }
+    const nextCursor =
+      (suggesitonItems.length + prevCursor - 1) % suggesitonItems.length;
     this.setState({
       ...this.state,
       cursor: nextCursor,
@@ -39,12 +43,26 @@ export default class SuggestionList extends Component<
 
   moveCursorDown() {
     const prevCursor = this.state?.cursor ?? 0;
-    const suggestionItemLen = this.state?.suggestionItems?.length ?? 0;
-    const nextCursor = (prevCursor + 1) % suggestionItemLen;
+    const suggesitonItems = this.state?.suggestionItems ?? [];
+    if (!suggesitonItems.length) {
+      return;
+    }
+    const nextCursor = (prevCursor + 1) % suggesitonItems.length;
     this.setState({
       ...this.state,
       cursor: nextCursor,
     });
+  }
+
+  getSelectedItem(): string {
+    const suggesitonItems = this.state?.suggestionItems ?? [];
+    const cursor = this.state?.cursor ?? 0;
+
+    if (cursor >= suggesitonItems.length) {
+      return "";
+    }
+
+    return suggesitonItems[cursor].text;
   }
 
   hide() {
