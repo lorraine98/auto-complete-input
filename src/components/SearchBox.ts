@@ -31,11 +31,11 @@ export default class SearchBox extends Component {
   }
 
   bindEvent() {
-    this.$target.addEventListener("focusout", (e) => {
+    this.$target.addEventListener("focusout", () => {
       this.suggestionListComp?.hide();
     });
 
-    this.$target.addEventListener("focusin", (e) => {
+    this.$target.addEventListener("focusin", () => {
       this.suggestionListComp?.show();
     });
 
@@ -43,9 +43,10 @@ export default class SearchBox extends Component {
       if (e.isComposing) {
         return;
       }
-      if (e.key === "ArrowUp") {
+      const { key } = e;
+      if (key === "ArrowUp") {
         this.suggestionListComp?.moveCursorUp();
-      } else if (e.key === "ArrowDown") {
+      } else if (key === "ArrowDown") {
         this.suggestionListComp?.moveCursorDown();
       }
     });
@@ -71,6 +72,7 @@ export default class SearchBox extends Component {
         const $input = $(classToQuery("search-input")) as HTMLInputElement;
         $input.value = "";
         this.suggestionListComp?.setState({ suggestionItems: null });
+        $input.focus();
       }
     });
   }
