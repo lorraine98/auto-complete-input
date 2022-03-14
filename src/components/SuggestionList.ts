@@ -65,7 +65,6 @@ export default class SuggestionList extends Component<
   }
 
   hide() {
-    console.log(this.$target);
     this.$target.classList.add("hide");
   }
 
