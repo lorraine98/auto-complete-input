@@ -35,6 +35,16 @@ export default class SearchBox extends Component<Props> {
     }
   }
 
+  clearInputValue() {
+    const $input = $(
+      classToQuery("search-input"),
+      this.$target
+    ) as HTMLInputElement;
+    $input.value = "";
+    $input.focus();
+    this.suggestionListComp?.hide();
+  }
+
   bindEvents() {
     this.$target.addEventListener("keydown", (e) => {
       if (e.isComposing) {
@@ -64,20 +74,10 @@ export default class SearchBox extends Component<Props> {
       })
     );
 
-    const clearInputValue = () => {
-      const $input = $(
-        classToQuery("search-input"),
-        this.$target
-      ) as HTMLInputElement;
-      $input.value = "";
-      $input.focus();
-      this.suggestionListComp?.hide();
-    };
-
     this.$target.addEventListener("click", (e) => {
       const { classList, innerText } = e.target as HTMLElement;
       if (classList.contains("clear-icon")) {
-        clearInputValue();
+        this.clearInputValue();
       }
       if (classList.contains("suggestion-list-li")) {
         this.props?.onSubmitInput(innerText);
