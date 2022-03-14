@@ -33,4 +33,7 @@ module.exports = {
     new CleanWebpackPlugin(),
   ],
   devtool: "source-map",
+  devServer: {
+    port: 8080,
+  },
 };
