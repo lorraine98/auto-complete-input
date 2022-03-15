@@ -7,7 +7,6 @@ const getSuggestionListPath = (word: string) =>
 export const fetchSuggestionList = async (
   word: string
 ): Promise<SuggestionItem[]> => {
-  console.log("called fetchSuggestionList");
   try {
     const res = await fetch(getSuggestionListPath(word));
     if (!res.ok) {

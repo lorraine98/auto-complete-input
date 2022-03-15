@@ -80,12 +80,10 @@ export default class SuggestionList extends Component<
             <ul class="suggestion-list">
             ${suggestionList
               .map(
-                (suggestionItem) =>
+                (suggestionItem, i) =>
                   `
                     <li class="suggestion-list-li ${
-                      cursor === suggestionItem.id
-                        ? "suggestion-list-selected"
-                        : ""
+                      cursor === i + 1 ? "suggestion-list-selected" : ""
                     }">
                         ${suggestionItem.text}
                     </li>
