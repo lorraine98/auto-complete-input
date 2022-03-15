@@ -30,6 +30,12 @@ context("auto-complete", () => {
     Cypress.session.clearAllSavedSessions();
   };
 
+  const interceptSuggestionList = () => {
+    cy.intercept("/web-front/autocomplete?value=*").as(
+      "interceptSuggestionList"
+    );
+  };
+
   describe("Search Input", () => {
     it("삭제 버튼을 눌렀을 때 search input value가 비워져요.", () => {
       searchWord("가");
@@ -59,6 +65,20 @@ context("auto-complete", () => {
         .its("sessionStorage")
         .invoke("getItem", "!@#$")
         .should("not.exist");
+    });
+  });
+
+  describe("Suggestion List", () => {
+    it("방향키에 따라 focus가 이동해요.", () => {
+      interceptSuggestionList();
+      searchWord("가").wait("@interceptSuggestionList");
+      findSearchInput()
+        .type("{downArrow}")
+        .then(() => {
+          cy.get(".suggestion-list > li")
+            .eq(0)
+            .should("have.class", "suggestion-list-selected");
+        });
     });
   });
 });
