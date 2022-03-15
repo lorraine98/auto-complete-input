@@ -34,7 +34,7 @@ export default class SuggestionList extends Component<
       return;
     }
     const nextCursor =
-      (suggestionList.length + prevCursor - 1) % suggestionList.length;
+      (suggestionList.length + prevCursor) % (suggestionList.length + 1);
     this.setState({
       ...this.state,
       cursor: nextCursor,
@@ -47,7 +47,7 @@ export default class SuggestionList extends Component<
     if (!suggestionList.length) {
       return;
     }
-    const nextCursor = (prevCursor + 1) % suggestionList.length;
+    const nextCursor = (prevCursor + 1) % (suggestionList.length + 1);
     this.setState({
       ...this.state,
       cursor: nextCursor,
@@ -57,7 +57,7 @@ export default class SuggestionList extends Component<
   getSelectedItem(): string {
     const suggestionList = this.state?.suggestionList ?? [];
     const cursor = this.state?.cursor ?? 0;
-    if (cursor >= suggestionList.length) {
+    if (cursor > suggestionList.length) {
       return "";
     }
 
@@ -77,13 +77,15 @@ export default class SuggestionList extends Component<
     const cursor = this.state?.cursor;
 
     return `
-            <ul>
+            <ul class="suggestion-list">
             ${suggestionList
               .map(
-                (suggestionItem, i) =>
+                (suggestionItem) =>
                   `
                     <li class="suggestion-list-li ${
-                      cursor === i ? "suggestion-list-selected" : ""
+                      cursor === suggestionItem.id
+                        ? "suggestion-list-selected"
+                        : ""
                     }">
                         ${suggestionItem.text}
                     </li>
