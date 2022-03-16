@@ -2,7 +2,6 @@
 
 import { ID } from "../../src/common/constant";
 import { idToQuery, classToQuery } from "../../src/common/dom";
-import { fetchSuggestionList } from "../../src/api/fetch-suggestion-list";
 
 context("auto-complete", () => {
   beforeEach(() => {
