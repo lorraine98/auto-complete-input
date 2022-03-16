@@ -61,11 +61,15 @@ export default class SuggestionList extends Component<
       return "";
     }
 
-    return suggestionList[cursor].text;
+    return suggestionList[cursor - 1].text;
   }
 
   hide() {
     this.$target.classList.add("hide");
+    this.setState({
+      ...this.state,
+      cursor: 0,
+    });
   }
 
   show() {

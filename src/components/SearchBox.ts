@@ -56,6 +56,10 @@ export default class SearchBox extends Component<Props> {
         this.suggestionListComp?.moveCursorUp();
       } else if (key === "ArrowDown") {
         this.suggestionListComp?.moveCursorDown();
+      } else if (key == "Backspace") {
+        this.suggestionListComp?.setState({
+          cursor: 0,
+        });
       }
     });
 
