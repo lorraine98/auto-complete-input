@@ -13,7 +13,7 @@ export default class App extends Component {
     super($target);
   }
 
-  componentDidMount() {
+  initSubcomponents() {
     const onSubmitInput = (content: string) => {
       this.searchResultComp?.setState({ content });
     };
@@ -22,9 +22,18 @@ export default class App extends Component {
       $(idToQuery(ID.SearchBoxComp), this.$target),
       { onSubmitInput }
     );
+
     this.searchResultComp = new SearchResult(
       $(idToQuery(ID.SearchResultComp), this.$target)
     );
+  }
+
+  componentDidMount() {
+    this.initSubcomponents();
+  }
+
+  componentDidUpdate() {
+    this.initSubcomponents();
   }
 
   getInnerHTML() {

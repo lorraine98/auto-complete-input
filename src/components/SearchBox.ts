@@ -24,6 +24,12 @@ export default class SearchBox extends Component<Props> {
     this.bindEvents();
   }
 
+  initSubcomponents() {
+    this.suggestionListComp = new SuggestionList(
+      $(idToQuery(ID.SuggestionListComp), this.$target)
+    );
+  }
+
   async getSuggestionList(word: string) {
     if (hasItem(word)) {
       return getItem(word);
@@ -109,9 +115,11 @@ export default class SearchBox extends Component<Props> {
   }
 
   componentDidMount() {
-    this.suggestionListComp = new SuggestionList(
-      $(idToQuery(ID.SuggestionListComp), this.$target)
-    );
+    this.initSubcomponents();
+  }
+
+  componentDidUpdate() {
+    this.initSubcomponents();
   }
 
   getInnerHTML() {
