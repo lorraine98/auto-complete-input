@@ -196,7 +196,7 @@ class App extends _common_Component__WEBPACK_IMPORTED_MODULE_0__["default"] {
     super($target);
   }
 
-  componentDidMount() {
+  initSubcomponents() {
     const onSubmitInput = content => {
       var _this$searchResultCom;
 
@@ -209,6 +209,14 @@ class App extends _common_Component__WEBPACK_IMPORTED_MODULE_0__["default"] {
       onSubmitInput
     });
     this.searchResultComp = new _SearchResult__WEBPACK_IMPORTED_MODULE_2__["default"]((0,_common_dom__WEBPACK_IMPORTED_MODULE_4__.$)((0,_common_dom__WEBPACK_IMPORTED_MODULE_4__.idToQuery)(_common_constant__WEBPACK_IMPORTED_MODULE_3__.ID.SearchResultComp), this.$target));
+  }
+
+  componentDidMount() {
+    this.initSubcomponents();
+  }
+
+  componentDidUpdate() {
+    this.initSubcomponents();
   }
 
   getInnerHTML() {
@@ -257,6 +265,10 @@ class SearchBox extends _common_Component__WEBPACK_IMPORTED_MODULE_0__["default"
 
   componentInit() {
     this.bindEvents();
+  }
+
+  initSubcomponents() {
+    this.suggestionListComp = new _SuggestionList__WEBPACK_IMPORTED_MODULE_3__["default"]((0,_common_dom__WEBPACK_IMPORTED_MODULE_6__.$)((0,_common_dom__WEBPACK_IMPORTED_MODULE_6__.idToQuery)(_common_constant__WEBPACK_IMPORTED_MODULE_7__.ID.SuggestionListComp), this.$target));
   }
 
   async getSuggestionList(word) {
@@ -367,7 +379,11 @@ class SearchBox extends _common_Component__WEBPACK_IMPORTED_MODULE_0__["default"
   }
 
   componentDidMount() {
-    this.suggestionListComp = new _SuggestionList__WEBPACK_IMPORTED_MODULE_3__["default"]((0,_common_dom__WEBPACK_IMPORTED_MODULE_6__.$)((0,_common_dom__WEBPACK_IMPORTED_MODULE_6__.idToQuery)(_common_constant__WEBPACK_IMPORTED_MODULE_7__.ID.SuggestionListComp), this.$target));
+    this.initSubcomponents();
+  }
+
+  componentDidUpdate() {
+    this.initSubcomponents();
   }
 
   getInnerHTML() {
